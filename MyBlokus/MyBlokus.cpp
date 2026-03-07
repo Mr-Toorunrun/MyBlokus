@@ -8,6 +8,7 @@ int main() {
     int cal = 0;
     sf::Clock clock;
     clock.start();
+    int vert = 0, hori = 0;
     char board[6][6] =
     {
         {'0', '0', '1', '0', '0','0'},
@@ -75,8 +76,8 @@ int main() {
                 }
 
                 if constexpr (std::is_same_v<T, sf::Event::KeyPressed>) {
-                    decideNowSelected(e,clock,nowSelected,provisionalBoard);
-
+                    decideNowSelected(e,clock,nowSelected,provisionalBoard,vert,hori);
+                    moving(e, vert, hori,nowSelected);
                 }
                 });
 
@@ -94,166 +95,9 @@ int main() {
                 }
             );
         }
-        
-
-        window.clear(sf::Color::White);
-        for (auto& l : lines) {
-            window.draw(l);
-        }
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 6; j++) {
-                cal = i * 6 + j;
-                if (board[i][j] == '1') {
-                    grids[cal].setFillColor(sf::Color::Red);
-                }
-                else if (board[i][j] == '2') {
-                    grids[cal].setFillColor(sf::Color::Blue);
-                }
-                else {
-                    grids[cal].setFillColor(sf::Color::Transparent);
-                }
-            }
-        
-        
-        }
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 6; j++) {
-                cal = i * 6 + j;
-                if (provisionalBoard[i][j] == '1') {
-                    provisionalGrids[cal].setFillColor(sf::Color(255,0,0,128));
-                }
-                else {
-                    provisionalGrids[cal].setFillColor(sf::Color::Transparent);
-                }
-            }
-
-
-        }
-        for (auto& g : grids) {
-            window.draw(g);
-        }
-        for (auto& g : provisionalGrids) {
-            window.draw(g);
-        }
-        //ShapeA
-        for (auto& a : RedShapeA) {
-            a.setFillColor(sf::Color::Red);
-            if (nowSelected == "1") {
-                if (clock.getElapsedTime().asSeconds() > 1.f + 3.f / 5.f) {
-                    a.setFillColor(sf::Color::Red);
-                }
-                else if (clock.getElapsedTime().asSeconds() > 4.f/5.f) {
-
-                    a.setFillColor(sf::Color::Transparent);
-                }
-                    
-                
-            }
-            window.draw(a);
-        }
-        for (auto& a : BlueShapeA) {
-            window.draw(a);
-        }
-        //ShapeB
-        for (auto& b : RedShapeB) {
-            b.setFillColor(sf::Color::Red);
-            if (nowSelected == "2") {
-                if (clock.getElapsedTime().asSeconds() > 1.f + 3.f / 5.f) {
-                    b.setFillColor(sf::Color::Red);
-                }
-                else if (clock.getElapsedTime().asSeconds() > 4.f / 5.f) {
-
-                    b.setFillColor(sf::Color::Transparent);
-                }
-
-
-            }
-            window.draw(b);
-        }
-        for (auto& b : BlueShapeB) {
-            window.draw(b);
-        }
-        //shapeC
-        for (auto& c : RedShapeC) {
-            c.setFillColor(sf::Color::Red);
-            if (nowSelected == "3") {
-                if (clock.getElapsedTime().asSeconds() > 1.f + 3.f / 5.f) {
-                    c.setFillColor(sf::Color::Red);
-                }
-                else if (clock.getElapsedTime().asSeconds() > 4.f / 5.f) {
-
-                    c.setFillColor(sf::Color::Transparent);
-                }
-
-
-            }
-            window.draw(c);
-        }
-        for (auto& c : BlueShapeC) {
-            window.draw(c);
-        }
-        //shapeD
-        for (auto& d : RedShapeD) {
-            d.setFillColor(sf::Color::Red);
-            if (nowSelected == "4") {
-                if (clock.getElapsedTime().asSeconds() > 1.f + 3.f / 5.f) {
-                    d.setFillColor(sf::Color::Red);
-                }
-                else if (clock.getElapsedTime().asSeconds() > 4.f / 5.f) {
-
-                    d.setFillColor(sf::Color::Transparent);
-                }
-
-
-            }
-            window.draw(d);
-        }
-        for (auto& d : BlueShapeD) {
-            window.draw(d);
-        }
-        //shapeE
-        for (auto& e : RedShapeE) {
-            e.setFillColor(sf::Color::Red);
-            if (nowSelected == "5") {
-                if (clock.getElapsedTime().asSeconds() > 1.f + 3.f / 5.f) {
-                    e.setFillColor(sf::Color::Red);
-                }
-                else if (clock.getElapsedTime().asSeconds() > 4.f / 5.f) {
-
-                    e.setFillColor(sf::Color::Transparent);
-                }
-
-
-            }
-            window.draw(e);
-        }
-        for (auto& e : BlueShapeE) {
-            window.draw(e);
-        }
-        //shapeF
-        for (auto& f : RedShapeF) {
-            f.setFillColor(sf::Color::Red);
-            if (nowSelected == "6") {
-                if (clock.getElapsedTime().asSeconds() > 1.f + 3.f / 5.f) {
-                    f.setFillColor(sf::Color::Red);
-                }
-                else if (clock.getElapsedTime().asSeconds() > 4.f / 5.f) {
-
-                    f.setFillColor(sf::Color::Transparent);
-                }
-
-
-            }
-            window.draw(f);
-        }
-        for (auto& f : BlueShapeF) {
-            window.draw(f);
-        }
-        if (clock.getElapsedTime().asSeconds() > 1.f+3.f/5.f) {
-            clock.restart();
-        }
-        window.display();
-
+        provisionalParts(nowSelected,vert,hori,provisionalBoard);
+        draw(window, clock, nowSelected, lines, grids, provisionalGrids, BlueShapeF, RedShapeF, BlueShapeE, RedShapeE, BlueShapeD, RedShapeD, BlueShapeC, RedShapeC, BlueShapeB, RedShapeB, BlueShapeA, RedShapeA,provisionalBoard);
+    
     }
     return 0;
 }

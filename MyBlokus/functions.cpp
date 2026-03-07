@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "functions.h"
 
-void createpiece(std::vector<sf::RectangleShape>& lines, std::vector<sf::RectangleShape>& grids , std::vector<sf::RectangleShape>& provisionalGrids, std::vector<sf::RectangleShape>& BlueShapeF, std::vector<sf::RectangleShape>& RedShapeF, std::vector<sf::RectangleShape>& BlueShapeE, std::vector<sf::RectangleShape>& RedShapeE, std::vector<sf::RectangleShape>& BlueShapeD, std::vector<sf::RectangleShape>& RedShapeD, std::vector<sf::RectangleShape>& BlueShapeC, std::vector<sf::RectangleShape>& RedShapeC, std::vector<sf::RectangleShape>& BlueShapeB, std::vector<sf::RectangleShape>& RedShapeB, std::vector<sf::RectangleShape>& BlueShapeA, std::vector<sf::RectangleShape>& RedShapeA) {
+void createpiece(std::vector<sf::RectangleShape>& lines, std::vector<sf::RectangleShape>& grids, std::vector<sf::RectangleShape>& provisionalGrids, std::vector<sf::RectangleShape>& BlueShapeF, std::vector<sf::RectangleShape>& RedShapeF, std::vector<sf::RectangleShape>& BlueShapeE, std::vector<sf::RectangleShape>& RedShapeE, std::vector<sf::RectangleShape>& BlueShapeD, std::vector<sf::RectangleShape>& RedShapeD, std::vector<sf::RectangleShape>& BlueShapeC, std::vector<sf::RectangleShape>& RedShapeC, std::vector<sf::RectangleShape>& BlueShapeB, std::vector<sf::RectangleShape>& RedShapeB, std::vector<sf::RectangleShape>& BlueShapeA, std::vector<sf::RectangleShape>& RedShapeA) {
     //vertiacal
     for (int i = 0; i < 7; i++) {
         sf::RectangleShape l(sf::Vector2f(5.f, 600.f + i * 0.8)); //shape
@@ -246,7 +246,7 @@ void clearBoard (char provisionalBoard[6][6]) {
         }
     }
 }
-void decideNowSelected(const sf::Event::KeyPressed &e, sf::Clock &clock,std::string &nowSelected,char provisionalBoard[6][6]) {
+void decideNowSelected(const sf::Event::KeyPressed& e, sf::Clock& clock, std::string& nowSelected, char provisionalBoard[6][6], int& vert, int& hori) {
     if (e.code == sf::Keyboard::Key::Num1) {
         if (nowSelected == "1") {
             nowSelected = "";
@@ -256,9 +256,9 @@ void decideNowSelected(const sf::Event::KeyPressed &e, sf::Clock &clock,std::str
             clearBoard(provisionalBoard);
             clock.restart();
             nowSelected = "1";
-            provisionalBoard[4][4] = '1';
-            provisionalBoard[5][4] = '1';
-            provisionalBoard[4][5] = '1';
+            vert = 5;
+            hori = 5;
+            provisionalParts(nowSelected, vert, hori, provisionalBoard);
         }
     }
     if (e.code == sf::Keyboard::Key::Num2) {
@@ -270,10 +270,9 @@ void decideNowSelected(const sf::Event::KeyPressed &e, sf::Clock &clock,std::str
             clearBoard(provisionalBoard);
             clock.restart();
             nowSelected = "2";
-            provisionalBoard[4][4] = '1';
-            provisionalBoard[5][3] = '1';
-            provisionalBoard[5][4] = '1';
-            provisionalBoard[5][5] = '1';
+            vert = 5;
+            hori = 5;
+            provisionalParts(nowSelected, vert, hori, provisionalBoard);
         }
     }
     if (e.code == sf::Keyboard::Key::Num3) {
@@ -285,8 +284,9 @@ void decideNowSelected(const sf::Event::KeyPressed &e, sf::Clock &clock,std::str
             clock.restart();
             clearBoard(provisionalBoard);
             nowSelected = "3";
-            provisionalBoard[4][5] = '1';
-            provisionalBoard[5][5] = '1';
+            vert = 5;
+            hori = 5;
+            provisionalParts(nowSelected, vert, hori, provisionalBoard);
         }
     }
     if (e.code == sf::Keyboard::Key::Num4) {
@@ -297,10 +297,10 @@ void decideNowSelected(const sf::Event::KeyPressed &e, sf::Clock &clock,std::str
         else {
             clock.restart();
             clearBoard(provisionalBoard);
-            provisionalBoard[5][3] = '1';
-            provisionalBoard[5][4] = '1';
-            provisionalBoard[5][5] = '1';
+            vert = 5;
+            hori = 5;
             nowSelected = "4";
+            provisionalParts(nowSelected, vert, hori, provisionalBoard);
         }
     }
     if (e.code == sf::Keyboard::Key::Num5) {
@@ -311,8 +311,10 @@ void decideNowSelected(const sf::Event::KeyPressed &e, sf::Clock &clock,std::str
         else {
             clock.restart();
             clearBoard(provisionalBoard);
-            provisionalBoard[5][5] = '1';
+            vert = 5;
+            hori = 5;
             nowSelected = "5";
+            provisionalParts(nowSelected, vert, hori, provisionalBoard);
         }
     }
     if (e.code == sf::Keyboard::Key::Num6) {
@@ -323,20 +325,129 @@ void decideNowSelected(const sf::Event::KeyPressed &e, sf::Clock &clock,std::str
         else {
             clock.restart();
             clearBoard(provisionalBoard);
-            provisionalBoard[5][5] = '1';
-            provisionalBoard[5][4] = '1'; 
-            provisionalBoard[4][4] = '1'; 
-            provisionalBoard[4][5] = '1';
+            vert = 5;
+            hori = 5;
             nowSelected = "6";
+            provisionalParts(nowSelected, vert, hori, provisionalBoard);
         }
     }
 }
-/*void draw(std::vector<sf::RectangleShape>& lines, std::vector<sf::RectangleShape>& grids, std::vector<sf::RectangleShape>& provisionalGrids, std::vector<sf::RectangleShape>& BlueShapeF, std::vector<sf::RectangleShape>& RedShapeF, std::vector<sf::RectangleShape>& BlueShapeE, std::vector<sf::RectangleShape>& RedShapeE, std::vector<sf::RectangleShape>& BlueShapeD, std::vector<sf::RectangleShape>& RedShapeD, std::vector<sf::RectangleShape>& BlueShapeC, std::vector<sf::RectangleShape>& RedShapeC, std::vector<sf::RectangleShape>& BlueShapeB, std::vector<sf::RectangleShape>& RedShapeB, std::vector<sf::RectangleShape>& BlueShapeA, std::vector<sf::RectangleShape>& RedShapeA) {
+void provisionalParts(std::string nowSelected, int vert, int hori, char provisionalBoard[6][6]) {
+    clearBoard(provisionalBoard);
+    if (nowSelected == "1") {
+        provisionalBoard[vert-1][hori] = '1';
+        provisionalBoard[vert][hori-1] = '1';
+        provisionalBoard[vert - 1][hori - 1] = '1';
+    }
+    if (nowSelected == "2") {
+        provisionalBoard[vert][hori] = '1';
+        provisionalBoard[vert][hori-1] = '1';
+        provisionalBoard[vert][hori-2] = '1';
+        provisionalBoard[vert - 1][hori - 1] = '1';
+    }
+    if (nowSelected == "3") {
+        provisionalBoard[vert][hori] = '1';
+        provisionalBoard[vert-1][hori] = '1';
+    }
+    if (nowSelected == "4") {
+        provisionalBoard[vert][hori] = '1';
+        provisionalBoard[vert][hori-1] = '1';
+        provisionalBoard[vert][hori-2] = '1';
+    }
+    if (nowSelected == "5") {
+        provisionalBoard[vert][hori] = '1';
+    }
+    if (nowSelected == "6") {
+        provisionalBoard[vert][hori] = '1';
+        provisionalBoard[vert - 1][hori] = '1';
+        provisionalBoard[vert][hori-1] = '1';
+        provisionalBoard[vert-1][hori - 1] = '1';
+    }
+}
+void moving(const sf::Event::KeyPressed& e, int& vert, int& hori, std:: string nowSelected) {
+    if (e.code == sf::Keyboard::Key::Up) {
+        if (nowSelected == "4" || nowSelected == "5") {
+            if (vert > 0){
+                vert -= 1;
+            }
+        }
+        else {
+            if (vert > 1) {
+                vert -= 1;
+            }
+        }
+    }
+    if (e.code == sf::Keyboard::Key::Down) {
+        if (vert < 5) {
+            vert += 1;
+        }
+    }
+    if (e.code == sf::Keyboard::Key::Right) {
+        if (hori < 5) {
+            hori += 1; 
+        }
+    }
+    if (e.code == sf::Keyboard::Key::Left) {
+        if (nowSelected == "4" || nowSelected == "2") {
+            if (hori > 3) {
+                hori -= 1;
+            }
+        }
+        if (nowSelected == "3" || nowSelected == "5") {
+            if (hori > 2) {
+                hori -= 1;
+            }
+        }
+        else {
+            if (hori > 1) {
+                hori -= 1;
+            }
+        }
+    }
+}
+
+void draw(sf::RenderWindow& window,
+    sf::Clock& clock,
+    std::string& nowSelected,
+    std::vector<sf::RectangleShape>& lines,
+    std::vector<sf::RectangleShape>& grids,
+    std::vector<sf::RectangleShape>& provisionalGrids,
+    std::vector<sf::RectangleShape>& BlueShapeF,
+    std::vector<sf::RectangleShape>& RedShapeF,
+    std::vector<sf::RectangleShape>& BlueShapeE,
+    std::vector<sf::RectangleShape>& RedShapeE,
+    std::vector<sf::RectangleShape>& BlueShapeD,
+    std::vector<sf::RectangleShape>& RedShapeD,
+    std::vector<sf::RectangleShape>& BlueShapeC,
+    std::vector<sf::RectangleShape>& RedShapeC,
+    std::vector<sf::RectangleShape>& BlueShapeB,
+    std::vector<sf::RectangleShape>& RedShapeB,
+    std::vector<sf::RectangleShape>& BlueShapeA,
+    std::vector<sf::RectangleShape>& RedShapeA,
+    char provisionalBoard[6][6]) {
+    window.clear(sf::Color::White);
     for (auto& g : grids) {
         window.draw(g);
     }
-    for (auto& g : provisionalGrids) {
-        window.draw(g);
+    for (auto& l : lines) {
+        window.draw(l);
+    }
+   
+    for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < 6; j++) {
+
+            if (provisionalBoard[i][j] == '1') {
+                provisionalGrids[i * 6 + j].setFillColor(
+                    sf::Color(255, 0, 0, 128) 
+                );
+            }
+            else {
+                provisionalGrids[i * 6 + j].setFillColor(
+                    sf::Color::Transparent
+                );
+            }
+            window.draw(provisionalGrids[i * 6 + j]);
+        }
     }
     //ShapeA
     for (auto& a : RedShapeA) {
