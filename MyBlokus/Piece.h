@@ -23,6 +23,7 @@ public:
         std::vector<sf::RectangleShape>& BlueShapeB,
         std::vector<sf::RectangleShape>& RedShapeB,
         std::vector<sf::RectangleShape>& BlueShapeA,
-        std::vector<sf::RectangleShape>& RedShapeA
+        std::vector<sf::RectangleShape>& RedShapeA,
+        Board& board
     );
 };

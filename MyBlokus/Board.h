@@ -3,10 +3,6 @@
 #include <iostream>
 
 class Board {
-private:
-    char board[6][6];
-    char provisionalBoard[6][6];
-
 public:
     void clearBoard();
     //set
@@ -14,4 +10,9 @@ public:
     void setProvisionalChanges(int x, int y);
     //get
     int getProvisionalBoard(int x, int y);
+
+private:
+    char board[6][6];
+    char provisionalBoard[6][6];
+
 };

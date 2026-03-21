@@ -8,6 +8,7 @@ int main() {
     Piece piece;
     Block block;
     Player player;
+    Board board;
     std::string nowSelected = "";
     int cal = 0;
     sf::Clock clock;
@@ -63,7 +64,7 @@ int main() {
                 }
 
                 if constexpr (std::is_same_v<T, sf::Event::KeyPressed>) {
-                    player.decideNowSelected(e,clock,nowSelected,vert,hori);
+                    player.decideNowSelected(e,clock,nowSelected,vert,hori,board,block);
                     player.moving(e, vert, hori,nowSelected);
                 }
                 });
@@ -82,8 +83,8 @@ int main() {
                 }
             );
         }
-        block.provisionalParts(nowSelected,vert,hori);
-        piece.draw(window, clock, nowSelected, lines, grids, provisionalGrids, BlueShapeF, RedShapeF, BlueShapeE, RedShapeE, BlueShapeD, RedShapeD, BlueShapeC, RedShapeC, BlueShapeB, RedShapeB, BlueShapeA, RedShapeA);
+        block.provisionalParts(nowSelected,vert,hori,board);
+        piece.draw(window, clock, nowSelected, lines, grids, provisionalGrids, BlueShapeF, RedShapeF, BlueShapeE, RedShapeE, BlueShapeD, RedShapeD, BlueShapeC, RedShapeC, BlueShapeB, RedShapeB, BlueShapeA, RedShapeA,board);
     
     }
     return 0;
