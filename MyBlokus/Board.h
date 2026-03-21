@@ -6,13 +6,12 @@ class Board {
 public:
     void clearBoard();
     //set
-    void setChanges(int x, int y);
+    void setChanges(int x, int y,int what);
     void setProvisionalChanges(int x, int y);
     //get
     int getProvisionalBoard(int x, int y);
-
+    int getBoard(int x, int y);
 private:
     char board[6][6];
     char provisionalBoard[6][6];
-
 };

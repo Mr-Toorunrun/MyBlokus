@@ -7,5 +7,4 @@ class Block {
 public:
     //Board board;
     void provisionalParts(std::string nowSelected, int vert, int hori, Board& board);
-
 };
