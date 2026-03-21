@@ -1,32 +1,19 @@
 ﻿#include <SFML/Graphics.hpp>
 #include <iostream>
-#include <type_traits>
-#include "functions.h"
+#include "Block.h"
+#include "Piece.h"
+#include "Player.h"
 
 int main() {
+    Piece piece;
+    Block block;
+    Player player;
     std::string nowSelected = "";
     int cal = 0;
     sf::Clock clock;
     clock.start();
     int vert = 0, hori = 0;
-    char board[6][6] =
-    {
-        {'0', '0', '1', '0', '0','0'},
-        {'2', '0', '0', '0', '2','0'},
-        {'0', '0', '0', '0', '0','0'},
-        {'0', '2', '0', '1', '0','1'},
-        {'1', '2', '0', '0', '2','0'},
-        {'0', '0', '1', '0', '0','0'}
-    };
-    char provisionalBoard[6][6] =
-    {
-        {'0', '0', '0', '0' ,'0','0'},
-        {'0', '0', '0', '0', '0','0'},
-        {'0', '0', '0', '0', '0','0'},
-        {'0', '0', '0', '0', '0','0'},
-        {'0', '0', '0', '0', '0','0'},
-        {'0', '0', '0', '0', '0','0'}
-    };
+    
     int speed = 5;
     sf::RenderWindow window(sf::VideoMode({ 1000, 700 }), "Screen");
     window.setFramerateLimit(60);
@@ -61,7 +48,7 @@ int main() {
     std::vector<sf::RectangleShape> RedShapeF;
     std::vector<sf::RectangleShape> BlueShapeF;
     
-    createpiece(lines, grids,provisionalGrids, BlueShapeF, RedShapeF, BlueShapeE, RedShapeE, BlueShapeD, RedShapeD, BlueShapeC, RedShapeC, BlueShapeB, RedShapeB, BlueShapeA, RedShapeA);
+    piece.createpiece(lines, grids,provisionalGrids, BlueShapeF, RedShapeF, BlueShapeE, RedShapeE, BlueShapeD, RedShapeD, BlueShapeC, RedShapeC, BlueShapeB, RedShapeB, BlueShapeA, RedShapeA);
     while (window.isOpen()) {
         // pollEvent now returns std::optional<sf::Event>
         
@@ -76,8 +63,8 @@ int main() {
                 }
 
                 if constexpr (std::is_same_v<T, sf::Event::KeyPressed>) {
-                    decideNowSelected(e,clock,nowSelected,provisionalBoard,vert,hori);
-                    moving(e, vert, hori,nowSelected);
+                    player.decideNowSelected(e,clock,nowSelected,vert,hori);
+                    player.moving(e, vert, hori,nowSelected);
                 }
                 });
 
@@ -95,8 +82,8 @@ int main() {
                 }
             );
         }
-        provisionalParts(nowSelected,vert,hori,provisionalBoard);
-        draw(window, clock, nowSelected, lines, grids, provisionalGrids, BlueShapeF, RedShapeF, BlueShapeE, RedShapeE, BlueShapeD, RedShapeD, BlueShapeC, RedShapeC, BlueShapeB, RedShapeB, BlueShapeA, RedShapeA,provisionalBoard);
+        block.provisionalParts(nowSelected,vert,hori);
+        piece.draw(window, clock, nowSelected, lines, grids, provisionalGrids, BlueShapeF, RedShapeF, BlueShapeE, RedShapeE, BlueShapeD, RedShapeD, BlueShapeC, RedShapeC, BlueShapeB, RedShapeB, BlueShapeA, RedShapeA);
     
     }
     return 0;
